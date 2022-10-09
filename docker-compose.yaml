@@ -1,13 +1,13 @@
 version: "3"
 services:
-  service:
+  atm-sync:
     build:
-      context: typescript-node-service
+      context: atm-sync
       dockerfile: Dockerfile
     environment:
       - SOME_ENV:1
     volumes:
-      - ./typescript-node-service:/app/
-      - typescript-node-service_node_modules:/app/node_modules
+      - ./atm-sync:/app/
+      - atm-sync_node_modules:/app/node_modules
 volumes:
-  typescript-node-service_node_modules:
+  atm-sync_node_modules:
