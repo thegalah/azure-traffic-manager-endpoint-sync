@@ -1,0 +1,13 @@
+version: "3"
+services:
+  service:
+    build:
+      context: typescript-node-service
+      dockerfile: Dockerfile
+    environment:
+      - SOME_ENV:1
+    volumes:
+      - ./typescript-node-service:/app/
+      - typescript-node-service_node_modules:/app/node_modules
+volumes:
+  typescript-node-service_node_modules:
