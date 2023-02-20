@@ -1,3 +1,4 @@
+import { getPublicIP } from "./getPublicIP";
 import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -6,10 +7,27 @@ const resourceGroup = process.env["AZURE_TRAFFIC_MANAGER_RESOURCE_GROUP"] ?? "";
 const profileName = process.env["AZURE_TRAFFIC_MANAGER_PROFILE_NAME"] ?? "";
 const endpointName = process.env["AZURE_TRAFFIC_MANAGER_ENDPOINT_NAME"] ?? "";
 
+const syncIntervalMs = 10000;
+const cacheSyncIntervalMs = 3600 * 1000;
+
 export class TrafficManagerSyncer {
     private client = new TrafficManagerManagementClient(new DefaultAzureCredential(), subscriptionId);
-    public Start = async () => {
+    private cachedAtmIP: string | null = null;
+
+    public constructor() {
+        this.updateCache();
+        setInterval(this.syncIP, syncIntervalMs);
+    }
+
+    private updateCache = async () => {
         const endpoint = await this.client.endpoints.get(resourceGroup, profileName, "ExternalEndpoints", endpointName);
-        console.log(endpoint);
+        const updatedIp = endpoint.target ?? null;
+        console.log(`Updating cached ip value. Old: ${this.cachedAtmIP} new: ${updatedIp}`);
+        this.cachedAtmIP = updatedIp;
+        setTimeout(this.updateCache, cacheSyncIntervalMs);
+    };
+    private syncIP = async () => {
+        const ip = await getPublicIP();
+        console.log(ip);
     };
 }
