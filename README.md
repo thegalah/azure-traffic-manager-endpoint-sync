@@ -13,46 +13,67 @@ AZURE_TRAFFIC_MANAGER_RESOURCE_GROUP=
 # Deploy
 
 ```yaml
-apiVersion: external-secrets.io/v1alpha1
-kind: ExternalSecret
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-    name: atm-sync-secret
+    name: atm-ip-sync
 spec:
-    refreshInterval: 1h0m0s
-    secretStoreRef:
-        kind: SecretStore
-        name: secret-store
-
-    target:
-        name: atm-sync-secret
-        creationPolicy: Owner
-
-    data:
-        - secretKey: azure_client_id
-          remoteRef:
-              key: atm-azure-client-id
-
-        - secretKey: azure_client_secret
-          remoteRef:
-              key: atm-azure-client-secret
-
-        - secretKey: azure_traffic_manager_subscription_id
-          remoteRef:
-              key: atm-azure-traffic-manager-subscription-id
-
-        - secretKey: azure_traffic_manager_profile_name
-          remoteRef:
-              key: atm-azure-traffic-manager-profile-name
-
-        - secretKey: azure_traffic_manager_endpoint_name
-          remoteRef:
-              key: atm-azure-traffic-manager-endpoint-name
-
-        - secretKey: azure_traffic_manager_resource_group
-          remoteRef:
-              key: atm-azure-traffic-manager-resource-group
-
-        - secretKey: azure_tenant_id
-          remoteRef:
-              key: atm-azure-tenant-id
+    selector:
+        matchLabels:
+            app: atm-ip-sync
+    replicas: 1
+    template:
+        metadata:
+            labels:
+                app: atm-ip-sync
+                release: atm-ip-sync
+                version: "0.1"
+        spec:
+            containers:
+                - name: atm-ip-sync
+                  image: docker.io/thegalah/atm-sync:latest
+                  imagePullPolicy: Always
+                  resources:
+                      limits:
+                          memory: "256Mi"
+                          cpu: "100m"
+                      requests:
+                          memory: "128Mi"
+                          cpu: "50m"
+                  env:
+                      - name: AZURE_CLIENT_ID
+                        valueFrom:
+                            secretKeyRef:
+                                name: atm-sync-secret
+                                key: azure_client_id
+                      - name: AZURE_TENANT_ID
+                        valueFrom:
+                            secretKeyRef:
+                                name: atm-sync-secret
+                                key: azure_tenant_id
+                      - name: AZURE_CLIENT_SECRET
+                        valueFrom:
+                            secretKeyRef:
+                                name: atm-sync-secret
+                                key: azure_client_secret
+                      - name: AZURE_TRAFFIC_MANAGER_SUBSCRIPTION_ID
+                        valueFrom:
+                            secretKeyRef:
+                                name: atm-sync-secret
+                                key: azure_traffic_manager_subscription_id
+                      - name: AZURE_TRAFFIC_MANAGER_PROFILE_NAME
+                        valueFrom:
+                            secretKeyRef:
+                                name: atm-sync-secret
+                                key: azure_traffic_manager_profile_name
+                      - name: AZURE_TRAFFIC_MANAGER_ENDPOINT_NAME
+                        valueFrom:
+                            secretKeyRef:
+                                name: atm-sync-secret
+                                key: azure_traffic_manager_endpoint_name
+                      - name: AZURE_TRAFFIC_MANAGER_RESOURCE_GROUP
+                        valueFrom:
+                            secretKeyRef:
+                                name: atm-sync-secret
+                                key: azure_traffic_manager_resource_group
 ```
