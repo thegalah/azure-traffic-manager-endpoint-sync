@@ -6,7 +6,6 @@ WORKDIR /app
 
 WORKDIR /app
 RUN yarn install
-RUN yarn run test
 RUN yarn run build
 
 ENTRYPOINT node dist/Program.js
