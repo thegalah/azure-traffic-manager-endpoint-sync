@@ -1,0 +1,23 @@
+version: "3"
+services:
+    api:
+        build:
+            context: .
+            dockerfile: api/Dockerfile.dev
+        env_file: dev.env
+        environment:
+            - PORT=8080
+        ports:
+            - 8081:8080
+        volumes:
+            - ./api:/app/api
+            - ./library:/app/library
+            - api_node_modules:/app/api/node_modules
+            - api_output:/app/api/dist
+        networks:
+            - atm-sync
+volumes:
+    api_node_modules:
+    api_output:
+networks:
+    atm-sync:
