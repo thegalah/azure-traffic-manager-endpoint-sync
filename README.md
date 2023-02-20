@@ -30,26 +30,39 @@ spec:
                           memory: "128Mi"
                           cpu: "50m"
                   env:
-                      - name: AZP_URL
+                      - name: AZURE_CLIENT_ID
                         valueFrom:
                             secretKeyRef:
-                                name: coderone-ado-agent-secret
-                                key: azp_url
-                      - name: AZP_TOKEN
+                                name: atm-sync-secret
+                                key: azure_client_id
+                      - name: AZURE_TENANT_ID
                         valueFrom:
                             secretKeyRef:
-                                name: coderone-ado-agent-secret
-                                key: azp_token
-                      - name: AZP_POOL
+                                name: atm-sync-secret
+                                key: azure_tenant_id
+                      - name: AZURE_CLIENT_SECRET
                         valueFrom:
                             secretKeyRef:
-                                name: coderone-ado-agent-secret
-                                key: azp_pool
-                      - name: VSTS_WORK
-                        value: /workspace
-                      - name: DOCKER_HOST
-                        value: tcp://0.0.0.0:2375
-                  volumeMounts:
-                      - mountPath: /workspace
-                        name: workspace
+                                name: atm-sync-secret
+                                key: azure_client_secret
+                      - name: AZURE_TRAFFIC_MANAGER_SUBSCRIPTION_ID
+                        valueFrom:
+                            secretKeyRef:
+                                name: atm-sync-secret
+                                key: azure_traffic_manager_subscription_id
+                      - name: AZURE_TRAFFIC_MANAGER_PROFILE_NAME
+                        valueFrom:
+                            secretKeyRef:
+                                name: atm-sync-secret
+                                key: azure_traffic_manager_profile_name
+                      - name: AZURE_TRAFFIC_MANAGER_ENDPOINT_NAME
+                        valueFrom:
+                            secretKeyRef:
+                                name: atm-sync-secret
+                                key: azure_traffic_manager_endpoint_name
+                      - name: AZURE_TRAFFIC_MANAGER_RESOURCE_GROUP
+                        valueFrom:
+                            secretKeyRef:
+                                name: atm-sync-secret
+                                key: azure_traffic_manager_resource_group
 ```
