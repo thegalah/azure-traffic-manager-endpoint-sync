@@ -10,13 +10,13 @@ services:
         ports:
             - 8081:8080
         volumes:
-            - ./library:/app/library
-            - api_node_modules:/app/api/node_modules
-            - api_output:/app/api/dist
+            - ./app:/app/
+            - node_modules:/app/node_modules
+            - output:/app/dist
         networks:
             - atm-sync
 volumes:
-    api_node_modules:
-    api_output:
+    node_modules:
+    output:
 networks:
     atm-sync:
