@@ -9,4 +9,4 @@ RUN yarn install
 COPY . /app/
 RUN yarn run build
 
-ENTRYPOINT node dist/Program.js
+ENTRYPOINT node dist/Service.js
