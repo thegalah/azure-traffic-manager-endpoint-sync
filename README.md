@@ -16,7 +16,9 @@ AZURE_TRAFFIC_MANAGER_ENDPOINT_NAME=
 AZURE_TRAFFIC_MANAGER_RESOURCE_GROUP=
 ```
 
-# Deploy
+# Deploy on Kubernetes
+
+To deploy this on kubernetes use the following resource definition. It will pull the env variables from the secret named: `atm-sync-secret`.
 
 ```yaml
 apiVersion: apps/v1
