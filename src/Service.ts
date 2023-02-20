@@ -1,1 +1,2 @@
-console.log("Hello world");
+import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
+import { DefaultAzureCredential } from "@azure/identity";
