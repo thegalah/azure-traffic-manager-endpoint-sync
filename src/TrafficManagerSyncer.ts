@@ -7,7 +7,7 @@ const resourceGroup = process.env["AZURE_TRAFFIC_MANAGER_RESOURCE_GROUP"] ?? "";
 const profileName = process.env["AZURE_TRAFFIC_MANAGER_PROFILE_NAME"] ?? "";
 const endpointName = process.env["AZURE_TRAFFIC_MANAGER_ENDPOINT_NAME"] ?? "";
 
-const syncIntervalMs = 10000;
+const syncIntervalMs = 60000;
 const cacheSyncIntervalMs = 3600 * 1000;
 
 export class TrafficManagerSyncer {
@@ -28,6 +28,15 @@ export class TrafficManagerSyncer {
     };
     private syncIP = async () => {
         const ip = await getPublicIP();
-        console.log(ip);
+        if (this.cachedAtmIP === null) {
+            return;
+        }
+        if (this.cachedAtmIP !== ip) {
+            console.log(`IPs do not match, old: ${this.cachedAtmIP} new: ${ip}`);
+            const result = await this.client.endpoints.update(resourceGroup, profileName, "ExternalEndpoints", endpointName, {
+                target: ip,
+            });
+            console.log(result);
+        }
     };
 }
