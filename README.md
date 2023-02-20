@@ -1,6 +1,6 @@
 # Azure traffic manager ip sync
 
-This image will synchronize the hosts public ip with an azure traffic manager endpoint.
+This image will synchronize the hosts public ip with an azure traffic manager endpoint. The sync interval is every 60 seonds and will only send an update whenever the traffic manager endpoint is out of sync.
 
 # ENV params
 
