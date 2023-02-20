@@ -21,7 +21,7 @@
         "prettier": "prettier --write \"{src}/**/*.{js,jsx,ts,tsx}\" \"*.{js,json,md,yml,yaml}\"",
         "check-dependencies": "depcheck",
         "start": "tsc && node dist/Service.js",
-        "start:local": "tsc && concurrently \"tsc --watch\" \"env-cmd -f dev.env nodemon --delay 2 ./dist/Program.js\"",
+        "start:local": "tsc && concurrently \"tsc --watch\" \"env-cmd -f dev.env nodemon --delay 2 ./dist/Service.js\"",
         "test": "jest",
         "update-packages": "npx npm-check-updates -u"
     },
