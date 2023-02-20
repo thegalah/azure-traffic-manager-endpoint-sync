@@ -18,6 +18,7 @@
     "license": "UNLICENSED",
     "name": "typescript-node-service",
     "scripts": {
+        "build": "tsc --build tsconfig.json",
         "prettier": "prettier --write \"{src}/**/*.{js,jsx,ts,tsx}\" \"*.{js,json,md,yml,yaml}\"",
         "check-dependencies": "depcheck",
         "start": "tsc && node dist/Service.js",
