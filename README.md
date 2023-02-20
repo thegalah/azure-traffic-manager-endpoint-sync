@@ -22,7 +22,7 @@ spec:
     template:
         spec:
             containers:
-                - name: vsts-agent
+                - name: atm-ip-sync
                   image: docker.io/thegalah/atm-sync:latest
                   imagePullPolicy: Always
                   resources:
