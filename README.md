@@ -1,3 +1,7 @@
+# Azure traffic manager ip sync
+
+This image will synchronize the hosts public ip with an azure traffic manager endpoint.
+
 # ENV params
 
 ```
